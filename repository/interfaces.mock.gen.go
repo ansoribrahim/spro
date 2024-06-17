@@ -9,6 +9,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
+	uuid "github.com/google/uuid"
 )
 
 // MockRepositoryInterface is a mock of RepositoryInterface interface.
@@ -34,17 +35,181 @@ func (m *MockRepositoryInterface) EXPECT() *MockRepositoryInterfaceMockRecorder 
 	return m.recorder
 }
 
-// GetTestById mocks base method.
-func (m *MockRepositoryInterface) GetTestById(ctx context.Context, input GetTestByIdInput) (GetTestByIdOutput, error) {
+// AdjustPlotForwardDistance mocks base method.
+func (m *MockRepositoryInterface) AdjustPlotForwardDistance(ctx context.Context, estateId uuid.UUID, currentOrderNumber, additionalDistanceGap int) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetTestById", ctx, input)
-	ret0, _ := ret[0].(GetTestByIdOutput)
+	ret := m.ctrl.Call(m, "AdjustPlotForwardDistance", ctx, estateId, currentOrderNumber, additionalDistanceGap)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AdjustPlotForwardDistance indicates an expected call of AdjustPlotForwardDistance.
+func (mr *MockRepositoryInterfaceMockRecorder) AdjustPlotForwardDistance(ctx, estateId, currentOrderNumber, additionalDistanceGap interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AdjustPlotForwardDistance", reflect.TypeOf((*MockRepositoryInterface)(nil).AdjustPlotForwardDistance), ctx, estateId, currentOrderNumber, additionalDistanceGap)
+}
+
+// GetEstate mocks base method.
+func (m *MockRepositoryInterface) GetEstate(ctx context.Context, id uuid.UUID) (EstateEntity, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetEstate", ctx, id)
+	ret0, _ := ret[0].(EstateEntity)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetTestById indicates an expected call of GetTestById.
-func (mr *MockRepositoryInterfaceMockRecorder) GetTestById(ctx, input interface{}) *gomock.Call {
+// GetEstate indicates an expected call of GetEstate.
+func (mr *MockRepositoryInterfaceMockRecorder) GetEstate(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTestById", reflect.TypeOf((*MockRepositoryInterface)(nil).GetTestById), ctx, input)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetEstate", reflect.TypeOf((*MockRepositoryInterface)(nil).GetEstate), ctx, id)
+}
+
+// GetMedianTreeHeight mocks base method.
+func (m *MockRepositoryInterface) GetMedianTreeHeight(ctx context.Context, estateID uuid.UUID) (int, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetMedianTreeHeight", ctx, estateID)
+	ret0, _ := ret[0].(int)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetMedianTreeHeight indicates an expected call of GetMedianTreeHeight.
+func (mr *MockRepositoryInterfaceMockRecorder) GetMedianTreeHeight(ctx, estateID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMedianTreeHeight", reflect.TypeOf((*MockRepositoryInterface)(nil).GetMedianTreeHeight), ctx, estateID)
+}
+
+// GetOccupiedPlotBehind mocks base method.
+func (m *MockRepositoryInterface) GetOccupiedPlotBehind(ctx context.Context, estateId uuid.UUID, currentOrderNumber int) (*PlotEntity, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetOccupiedPlotBehind", ctx, estateId, currentOrderNumber)
+	ret0, _ := ret[0].(*PlotEntity)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetOccupiedPlotBehind indicates an expected call of GetOccupiedPlotBehind.
+func (mr *MockRepositoryInterfaceMockRecorder) GetOccupiedPlotBehind(ctx, estateId, currentOrderNumber interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOccupiedPlotBehind", reflect.TypeOf((*MockRepositoryInterface)(nil).GetOccupiedPlotBehind), ctx, estateId, currentOrderNumber)
+}
+
+// GetOccupiedPlotForward mocks base method.
+func (m *MockRepositoryInterface) GetOccupiedPlotForward(ctx context.Context, estateId uuid.UUID, currentOrderNumber int) (*PlotEntity, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetOccupiedPlotForward", ctx, estateId, currentOrderNumber)
+	ret0, _ := ret[0].(*PlotEntity)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetOccupiedPlotForward indicates an expected call of GetOccupiedPlotForward.
+func (mr *MockRepositoryInterfaceMockRecorder) GetOccupiedPlotForward(ctx, estateId, currentOrderNumber interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOccupiedPlotForward", reflect.TypeOf((*MockRepositoryInterface)(nil).GetOccupiedPlotForward), ctx, estateId, currentOrderNumber)
+}
+
+// GetPlotByDistance mocks base method.
+func (m *MockRepositoryInterface) GetPlotByDistance(ctx context.Context, estateId uuid.UUID, distance int) (*PlotEntity, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetPlotByDistance", ctx, estateId, distance)
+	ret0, _ := ret[0].(*PlotEntity)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetPlotByDistance indicates an expected call of GetPlotByDistance.
+func (mr *MockRepositoryInterfaceMockRecorder) GetPlotByDistance(ctx, estateId, distance interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPlotByDistance", reflect.TypeOf((*MockRepositoryInterface)(nil).GetPlotByDistance), ctx, estateId, distance)
+}
+
+// GetPlotByOrderNumber mocks base method.
+func (m *MockRepositoryInterface) GetPlotByOrderNumber(ctx context.Context, estateId uuid.UUID, orderNumber int) (*PlotEntity, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetPlotByOrderNumber", ctx, estateId, orderNumber)
+	ret0, _ := ret[0].(*PlotEntity)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetPlotByOrderNumber indicates an expected call of GetPlotByOrderNumber.
+func (mr *MockRepositoryInterfaceMockRecorder) GetPlotByOrderNumber(ctx, estateId, orderNumber interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPlotByOrderNumber", reflect.TypeOf((*MockRepositoryInterface)(nil).GetPlotByOrderNumber), ctx, estateId, orderNumber)
+}
+
+// GetPlotByXAndY mocks base method.
+func (m *MockRepositoryInterface) GetPlotByXAndY(ctx context.Context, estateId uuid.UUID, x, y int) (*uuid.UUID, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetPlotByXAndY", ctx, estateId, x, y)
+	ret0, _ := ret[0].(*uuid.UUID)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetPlotByXAndY indicates an expected call of GetPlotByXAndY.
+func (mr *MockRepositoryInterfaceMockRecorder) GetPlotByXAndY(ctx, estateId, x, y interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPlotByXAndY", reflect.TypeOf((*MockRepositoryInterface)(nil).GetPlotByXAndY), ctx, estateId, x, y)
+}
+
+// PostEstate mocks base method.
+func (m *MockRepositoryInterface) PostEstate(ctx context.Context, entity EstateEntity) (*uuid.UUID, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "PostEstate", ctx, entity)
+	ret0, _ := ret[0].(*uuid.UUID)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// PostEstate indicates an expected call of PostEstate.
+func (mr *MockRepositoryInterfaceMockRecorder) PostEstate(ctx, entity interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PostEstate", reflect.TypeOf((*MockRepositoryInterface)(nil).PostEstate), ctx, entity)
+}
+
+// PostPlot mocks base method.
+func (m *MockRepositoryInterface) PostPlot(ctx context.Context, entity PlotEntity) (*uuid.UUID, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "PostPlot", ctx, entity)
+	ret0, _ := ret[0].(*uuid.UUID)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// PostPlot indicates an expected call of PostPlot.
+func (mr *MockRepositoryInterfaceMockRecorder) PostPlot(ctx, entity interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PostPlot", reflect.TypeOf((*MockRepositoryInterface)(nil).PostPlot), ctx, entity)
+}
+
+// SaveEstate mocks base method.
+func (m *MockRepositoryInterface) SaveEstate(ctx context.Context, entity EstateEntity) (*uuid.UUID, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SaveEstate", ctx, entity)
+	ret0, _ := ret[0].(*uuid.UUID)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SaveEstate indicates an expected call of SaveEstate.
+func (mr *MockRepositoryInterfaceMockRecorder) SaveEstate(ctx, entity interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveEstate", reflect.TypeOf((*MockRepositoryInterface)(nil).SaveEstate), ctx, entity)
+}
+
+// SavePlot mocks base method.
+func (m *MockRepositoryInterface) SavePlot(ctx context.Context, entity PlotEntity) (*uuid.UUID, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SavePlot", ctx, entity)
+	ret0, _ := ret[0].(*uuid.UUID)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SavePlot indicates an expected call of SavePlot.
+func (mr *MockRepositoryInterfaceMockRecorder) SavePlot(ctx, entity interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SavePlot", reflect.TypeOf((*MockRepositoryInterface)(nil).SavePlot), ctx, entity)
 }

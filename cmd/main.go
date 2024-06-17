@@ -1,18 +1,28 @@
 package main
 
 import (
-	"os"
-
-	"github.com/SawitProRecruitment/UserService/generated"
-	"github.com/SawitProRecruitment/UserService/handler"
-	"github.com/SawitProRecruitment/UserService/repository"
-
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+
+	"github.com/go-playground/validator/v10"
+
+	"spgo/generated"
+	"spgo/handler"
+	"spgo/repository"
+	"spgo/service"
 )
+
+type CustomValidator struct {
+	validator *validator.Validate
+}
+
+func (cv *CustomValidator) Validate(i interface{}) error {
+	return cv.validator.Struct(i)
+}
 
 func main() {
 	e := echo.New()
+	e.Validator = &CustomValidator{validator: validator.New()}
 
 	var server generated.ServerInterface = newServer()
 
@@ -22,12 +32,19 @@ func main() {
 }
 
 func newServer() *handler.Server {
-	dbDsn := os.Getenv("DATABASE_URL")
+	LoadConfig()
 	var repo repository.RepositoryInterface = repository.NewRepository(repository.NewRepositoryOptions{
-		Dsn: dbDsn,
+		Db: postgesDB,
 	})
-	opts := handler.NewServerOptions{
+
+	var serv service.ServiceInterface = service.NewService(service.NewServiceOptions{
 		Repository: repo,
-	}
-	return handler.NewServer(opts)
+		Db:         postgesDB,
+	})
+
+	return handler.NewServer(
+		handler.NewServerOptions{
+			Service: serv,
+		},
+	)
 }

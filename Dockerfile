@@ -1,23 +1,36 @@
 # Dockerfile definition for Backend application service.
 
-# From which image we want to build. This is basically our environment.
-FROM golang:1.21-alpine as Build
+# Stage 1: Build the Go application
+FROM golang:1.21-alpine as build
 
-# This will copy all the files in our repo to the inside the container at root location.
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the go.mod and go.sum files
+COPY go.mod go.sum ./
+
+# Download dependencies
+RUN go mod download
+
+# Copy the rest of the application code
 COPY . .
 
-# Build our binary at root location.
-RUN GOPATH= go build -o /main cmd/main.go
+# Build the application
+RUN go build -o main cmd/main.go ./cmd/config.go
 
 ####################################################################
-# This is the actual image that we will be using in production.
+# Stage 2: Create the production image
 FROM alpine:latest
 
-# We need to copy the binary from the build image to the production image.
-COPY --from=Build /main .
+# Set the working directory inside the container
+WORKDIR /app
 
-# This is the port that our application will be listening on.
+# Copy the binary and config file from the build stage
+COPY --from=build /app/main .
+COPY --from=build /app/config.yaml .
+
+# Expose the port that the application will listen on
 EXPOSE 1323
 
-# This is the command that will be executed when the container is started.
+# Command to run the application
 ENTRYPOINT ["./main"]

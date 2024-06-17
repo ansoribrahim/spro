@@ -22,15 +22,28 @@ services:
       - 5432
     volumes:
       - db:/var/lib/postgresql/data
-      # Load database schema from ./database.sql
-      # If you want to reload new database schema, you need to execute
-      # `docker-compose down --volumes` first to remove the volume.
       - ./database.sql:/docker-entrypoint-initdb.d/database.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 3
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - 6379:6379
+    expose:
+      - 6379
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 volumes:
   db:
+    driver: local
+  redis_data:
     driver: local

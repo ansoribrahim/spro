@@ -54,7 +54,7 @@ You may see some errors since you have not created the API yet.
 However for testing, you can use Docker run the project, run the following command:
 
 ```
-docke -compose up --build
+docker compose up --build
 ```
 
 You should be able to access the API at http://localhost:8080
