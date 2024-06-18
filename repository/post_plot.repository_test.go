@@ -59,7 +59,7 @@ func TestRepository_PostPlot(t *testing.T) {
 			name:         "Insert Error",
 			entity:       entity,
 			expectedResp: nil,
-			expectedErr:  sql.ErrNoRows, // Example error, adjust as per your application's error handling
+			expectedErr:  sql.ErrNoRows,
 			prepareMock: func() {
 				mock.ExpectBegin()
 				mock.ExpectQuery(regexp.QuoteMeta(query)).

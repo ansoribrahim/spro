@@ -34,11 +34,9 @@ func TestPostEstateHandler(t *testing.T) {
 
 	defer ctrl.Finish()
 
-	// Create a new Echo instance
 	e := echo.New()
 	e.Validator = &CustomValidator{validator: validator.New()}
 
-	// Define test cases
 	tests := []struct {
 		name           string
 		requestBody    string
@@ -146,7 +144,6 @@ func TestPostEstateHandler(t *testing.T) {
 	}
 }
 
-// Helper function to get a pointer to a string
 func ptr(s string) *string {
 	return &s
 }
