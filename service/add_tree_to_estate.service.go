@@ -8,7 +8,6 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
-	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 
 	"spgo/generated"
@@ -25,7 +24,6 @@ func (s *Service) AddTreeToEstate(ctx echo.Context, req generated.TreeRequest, e
 	defer func() {
 		if p := recover(); p != nil {
 			tx.Rollback()
-			logrus.Panic(p)
 		}
 		util.HandleTransaction(tx, err)
 	}()
@@ -83,12 +81,12 @@ func (s *Service) AddTreeToEstate(ctx echo.Context, req generated.TreeRequest, e
 
 	plotPrev, err := s.Repository.GetPlotByOrderNumber(nCtx, estate.ID, plot.OrderNumber-1)
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
-		return generated.TreeResponse{}, 0, err
+		return generated.TreeResponse{}, http.StatusInternalServerError, err
 	}
 
 	plotNext, err := s.Repository.GetPlotByOrderNumber(nCtx, estate.ID, plot.OrderNumber+1)
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
-		return generated.TreeResponse{}, 0, err
+		return generated.TreeResponse{}, http.StatusInternalServerError, err
 	}
 
 	if plotPrev != nil {
@@ -156,7 +154,7 @@ func (s *Service) constructPlot(nCtx context.Context, req generated.TreeRequest,
 			distanceToCoverTree := plot.TreeHeight + 1 + 10
 			plot.Distance = distanceToCurrentPlot + distanceToCoverTree
 		} else {
-			return nil, nil, http.StatusInternalServerError, err
+			return nil, nil, http.StatusInternalServerError, err1
 		}
 	} else {
 		/*
